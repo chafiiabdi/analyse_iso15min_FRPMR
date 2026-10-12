@@ -4,19 +4,19 @@ WITH (security_invoker = true) AS
 SELECT
     t.*,
 
-    -- Pente : circulation, puis rampe
+    -- Pente
     COALESCE(
         NULLIF(BTRIM(c.pente), ''),
         NULLIF(BTRIM(r.pente), '')
     ) AS pente,
 
-    -- Dévers : circulation, puis rampe
+    -- Dévers
     COALESCE(
         NULLIF(BTRIM(c.devers), ''),
         NULLIF(BTRIM(r.devers), '')
     ) AS devers,
 
-    -- État du revêtement : circulation, rampe, puis quai
+    -- État du revêtement
     COALESCE(
         NULLIF(BTRIM(c.etarevet), ''),
         NULLIF(BTRIM(r.etarevet), ''),
@@ -26,7 +26,14 @@ SELECT
     -- Présence des fiches associées
     c.id IS NOT NULL AS fiche_circulation_presente,
     r.id IS NOT NULL AS fiche_rampe_presente,
-    q.id IS NOT NULL AS fiche_quai_presente
+    q.id IS NOT NULL AS fiche_quai_presente,
+
+    -- Largeur utile
+    COALESCE(
+        NULLIF(BTRIM(c.largutile), ''),
+        NULLIF(BTRIM(r.largutile), ''),
+        NULLIF(BTRIM(q."largeurPassage"), '')
+    ) AS largutile
 
 FROM iso15min.v_troncons_pgrouting_pmr_v2 AS t
 
