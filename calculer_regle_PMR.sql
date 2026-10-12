@@ -1,4 +1,4 @@
-Recalculer les règles PMR
+--calculer les règles PMR
 
 CREATE OR REPLACE VIEW iso15min.v_troncons_regles_pmr
 WITH (security_invoker = true) AS
